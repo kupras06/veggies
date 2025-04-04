@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>850095074938-8om6vs236fsl0m18pu2m55rot8u1ue0v.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.850095074938-8om6vs236fsl0m18pu2m55rot8u1ue0v</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCPTkbm3WsW8CBRSinn-nt17bSto6dwT2M</string>
+	<key>GCM_SENDER_ID</key>
+	<string>850095074938</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.veggies</string>
+	<key>PROJECT_ID</key>
+	<string>buddy-394414</string>
+	<key>STORAGE_BUCKET</key>
+	<string>buddy-394414.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:850095074938:ios:10bc41a5604f0b5aa795c3</string>
+</dict>
+</plist>
