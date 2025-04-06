@@ -79,5 +79,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 
-  // Implement other event handlers similarly
+  @override
+  Stream<AuthState> mapEventToState(AuthEvent event) async* {
+    if (event is UserDetailsRequested) {
+      yield AuthLoading();
+      final result = await getCurrentUser();
+      yield* result.fold(
+        (failure) async* {
+          yield AuthFailure(failure.message);
+        },
+        (user) async* {
+          if (user != null) {
+            yield AuthAuthenticated(user);
+          } else {
+            yield AuthUnauthenticated();
+          }
+        },
+      );
+    }
+  }
 }

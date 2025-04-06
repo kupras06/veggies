@@ -27,6 +27,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         email: email,
         password: password,
       );
+      print(userCredential);
       return UserModel.fromFirebaseUser(userCredential.user!);
     } catch (e) {
       if (kDebugMode) {

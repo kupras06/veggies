@@ -1,10 +1,9 @@
 name: Flutter CI/CD
 
 on:
-  push:
-    branches: [ main, develop ]
   pull_request:
     branches: [ main, develop ]
+  
 
 env:
   FLUTTER_VERSION: "3.29.2"
@@ -38,6 +37,7 @@ jobs:
         run: flutter test integration_test/
 
   build-android:
+    if: github.event.pull_request.merged == true
     name: Build Android APK
     needs: test
     runs-on: ubuntu-latest
@@ -63,6 +63,7 @@ jobs:
           path: build/app/outputs/flutter-apk/app-*-release.apk
 
   build-ios:
+    if: github.event.pull_request.merged == true
     name: Build iOS IPA
     needs: test
     runs-on: macos-latest
