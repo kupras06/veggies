@@ -4,9 +4,9 @@ import 'package:veggies/data/datasources/auth_remote_data_source.dart';
 import 'package:veggies/data/entities/user_entity.dart';
 import 'package:veggies/data/repositories/auth_repository.dart';
 
-class AuthRepositoryImpl implements AuthRepository {
-  AuthRepositoryImpl({required this.remoteDataSource});
-  final AuthRemoteDataSource remoteDataSource;
+class AuthRepository implements IAuthRepository {
+  AuthRepository({required this.remoteDataSource});
+  final IAuthRemoteDataSource remoteDataSource;
 
   @override
   Future<Either<Failure, UserEntity>> signInWithEmailAndPassword(

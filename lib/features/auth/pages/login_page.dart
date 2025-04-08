@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:veggies/core/routes/app_router.dart';
 import 'package:veggies/features/auth/bloc/auth_bloc.dart';
+import 'package:veggies/features/auth/widgets/auth_layout.dart';
 import 'package:veggies/features/auth/widgets/email_input.dart';
 
 class LoginPage extends StatefulWidget {
@@ -39,9 +40,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: AuthLayout(
         child: Form(
           key: _formKey,
           child: BlocConsumer<AuthBloc, AuthState>(
@@ -51,9 +50,21 @@ class _LoginPageState extends State<LoginPage> {
                   context,
                 ).showSnackBar(SnackBar(content: Text(state.message)));
               }
+              if (state is AuthAuthenticated) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  AppRouter.home,
+                  (route) => false,
+                );
+              }
+              
             },
             builder: (context, state) {
-              return Column(
+              if (state is AuthLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              else {
+                return Column(
                 children: [
                   EmailInput(
                     controller: _emailController,
@@ -91,27 +102,34 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                   const SizedBox(height: 24),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState?.validate() ?? false) {
-                        context.read<AuthBloc>().add(
-                          SignInRequested(
-                            _emailController.text,
-                            _passwordController.text,
-                          ),
-                        );
-                      }
-                    },
-                    child: const Text('Sign In'),
-                  ),
-                  TextButton(
-                    onPressed:
-                        () => Navigator.pushNamed(context, AppRouter.signup),
-                    // ignore: prefer_const_constructors
-                    child: Text('Create a New Account'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            context.read<AuthBloc>().add(
+                              SignInRequested(
+                                _emailController.text,
+                                _passwordController.text,
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text('Sign In'),
+                      ),
+                      TextButton(
+                        onPressed:
+                            () =>
+                                Navigator.pushNamed(context, AppRouter.signup),
+                        // ignore: prefer_const_constructors
+                        child: Text('Create a New Account'),
+                      ),
+                    ],
                   ),
                 ],
               );
+              }
             },
           ),
         ),

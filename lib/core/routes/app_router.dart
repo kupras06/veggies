@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:veggies/features/auth/pages/login_page.dart';
 import 'package:veggies/features/auth/pages/sign_up_page.dart';
+import 'package:veggies/features/home/home_page.dart';
 
 class AppRouter {
   static const String login = '/auth/login';
@@ -13,6 +14,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case signup:
         return MaterialPageRoute(builder: (_) => SignUpPage());
+      case home:
+        return MaterialPageRoute(builder: (_) => const HomePage());
       default:
         return MaterialPageRoute(
           builder:

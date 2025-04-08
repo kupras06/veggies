@@ -1,38 +1,35 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:veggies/services/auth/get_current_user.dart';
-import 'package:veggies/services/auth/sign_out.dart';
-import 'package:veggies/services/auth/sign_up_with_email.dart';
-
-import '../../../data/entities/user_entity.dart';
-import '../../../services/auth/sign_in_with_email.dart';
+import 'package:flutter/foundation.dart';
+import 'package:veggies/data/entities/user_entity.dart';
+import 'package:veggies/services/auth_services.dart';
 
 part './auth_event.dart';
 part './auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
-    required this.signInWithEmail,
-    required this.signUpWithEmail,
-    required this.getCurrentUser,
-    required this.signOut,
+    required this.authService,
   }) : super(AuthInitial()) {
     on<SignInRequested>(_onSignInRequested);
     on<SignUpRequested>(_onSignUpRequested);
     on<SignOutRequested>(_onSignOutRequested);
     on<CheckAuthStatus>(_onCheckAuthStatus);
   }
-  final SignInWithEmail signInWithEmail;
-  final SignUpWithEmail signUpWithEmail;
-  final GetCurrentUser getCurrentUser;
-  final SignOut signOut;
+  final IAuthService authService;
 
   Future<void> _onSignInRequested(
     SignInRequested event,
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
-    final result = await signInWithEmail(event.email, event.password);
+    if (kDebugMode) {
+      print('${event.email},${event.password}');
+    }
+    final result = await authService.signInWithEmailAndPassword(
+      event.email,
+      event.password,
+    );
     result.fold(
       (failure) => emit(AuthFailure(failure.toString())),
       (user) => emit(AuthAuthenticated(user)),
@@ -44,7 +41,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
-    final result = await signUpWithEmail(
+    final result = await authService.signUpWithEmailAndPassword(
       event.email,
       event.password,
       event.name,
@@ -60,7 +57,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
-    final result = await signOut();
+    final result = await authService.signOut();
     result.fold((failure) => emit(AuthFailure(failure.toString())), (_) {
       emit(AuthUnauthenticated());
     });
@@ -71,7 +68,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
-    final result = await getCurrentUser();
+    final result = await authService.getCurrentUser();
     result.fold((failure) => emit(AuthFailure(failure.toString())), (user) {
       user == null
           ? emit(AuthUnauthenticated())
@@ -79,5 +76,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 
-  // Implement other event handlers similarly
+  Stream<AuthState> mapEventToState(AuthEvent event) async* {
+    if (event is UserDetailsRequested) {
+      yield AuthLoading();
+      final result = await authService.getCurrentUser();
+      yield* result.fold(
+        (failure) async* {
+          yield AuthFailure(failure.message);
+        },
+        (user) async* {
+          if (user != null) {
+            yield AuthAuthenticated(user);
+          } else {
+            yield AuthUnauthenticated();
+          }
+        },
+      );
+    }
+  }
 }
