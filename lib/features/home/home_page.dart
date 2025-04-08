@@ -66,7 +66,7 @@ class HomePage extends StatelessWidget {
           else
             TextButton(
               onPressed: () {
-                // Add email verification logic
+                // Trigger email verification
               },
               child: const Text('Verify email address'),
             ),

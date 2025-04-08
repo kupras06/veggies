@@ -47,7 +47,7 @@ void main() {
 
   final tFeatureEntity = UserEntity(email: 'email', name: 'name');
 
-  test('should get feature data from the repository', () async {
+  test('should successfully retrieve current user from repository', () async {
     // arrange
     when(
       mockAuthRepository.getCurrentUser(),

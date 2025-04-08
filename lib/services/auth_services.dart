@@ -29,7 +29,7 @@ class AuthService implements IAuthService {
     String email,
     String password,
   ) async {
-    return await repository.signInWithEmailAndPassword(email, password);
+    return repository.signInWithEmailAndPassword(email, password);
   }
 
   @override
@@ -38,12 +38,12 @@ class AuthService implements IAuthService {
     String password,
     String name,
   ) async {
-    return await repository.signUpWithEmailAndPassword(email, password, name);
+    return repository.signUpWithEmailAndPassword(email, password, name);
   }
 
   @override
   Future<Either<Failure, UserEntity?>> getCurrentUser() async {
-    return await repository.getCurrentUser();
+    return repository.getCurrentUser();
   }
 
   @override
