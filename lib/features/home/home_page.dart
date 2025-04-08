@@ -1,35 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:veggies/core/widgets/route_guard.dart';
-// import 'package:veggies/features/auth/bloc/auth_bloc.dart';
-
-// class HomePage extends StatelessWidget {
-//   const HomePage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return RouteGuard(
-//       child: Scaffold(
-//         appBar: AppBar(
-//           title: const Text('Home'),
-//           actions: [
-//             IconButton(
-//               icon: const Icon(Icons.logout),
-//               onPressed: () {
-//                 context.read<AuthBloc>().add(SignOutRequested());
-//               },
-//             ),
-//           ],
-//         ),
-//         body: const Center(
-//           child: Text(
-//             'Welcome to the Home Page! ${context.read<AuthBloc>().getCurrentUser().hashCode}',
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:veggies/data/entities/user_entity.dart';
@@ -83,7 +51,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          _buildProfileItem('Name', user.name ?? 'Not provided'),
+          _buildProfileItem('Name', user.name ?? '-'),
           _buildProfileItem('Email', user.email),
           _buildProfileItem('User ID', user.id ?? 'N/A'),
           const SizedBox(height: 30),

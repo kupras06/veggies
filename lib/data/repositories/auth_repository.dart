@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:veggies/core/errors/failures.dart';
 import 'package:veggies/data/entities/user_entity.dart';
 
-abstract class AuthRepository {
+abstract class IAuthRepository {
   Future<Either<Failure, UserEntity>> signInWithEmailAndPassword(
     String email,
     String password,

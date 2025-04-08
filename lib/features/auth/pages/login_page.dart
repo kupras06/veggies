@@ -57,9 +57,14 @@ class _LoginPageState extends State<LoginPage> {
                   (route) => false,
                 );
               }
+              
             },
             builder: (context, state) {
-              return Column(
+              if (state is AuthLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              else {
+                return Column(
                 children: [
                   EmailInput(
                     controller: _emailController,
@@ -124,6 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               );
+              }
             },
           ),
         ),
