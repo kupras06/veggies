@@ -3,6 +3,8 @@ name: Flutter CI/CD
 on:
   pull_request:
     branches: [ main, develop ]
+  push: 
+    branches: [ main, develop ]
   
 
 env:
@@ -42,7 +44,7 @@ jobs:
 
 
   build-android:
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true || github.event_name == 'push'
     name: Build Android APK
     needs: test
     runs-on: ubuntu-latest
@@ -68,7 +70,7 @@ jobs:
           path: build/app/outputs/flutter-apk/app-*-release.apk
 
   build-ios:
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true || github.event_name == 'push'
     name: Build iOS IPA
     needs: test
     runs-on: macos-latest
